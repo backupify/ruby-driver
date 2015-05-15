@@ -216,7 +216,7 @@ module Cassandra
   #   cluster instance.
   def self.cluster_async(options = {})
     options = options.select do |key, value|
-      [ :credentials, :auth_provider, :compression, :hosts, :logger, :port,
+      [ :credentials, :auth_provider, :compression, :hosts, :logger, :port, :port_lookup,
         :load_balancing_policy, :reconnection_policy, :retry_policy, :listeners,
         :consistency, :trace, :page_size, :compressor, :username, :password,
         :ssl, :server_cert, :client_cert, :private_key, :passphrase,
@@ -349,6 +349,7 @@ module Cassandra
       port = options[:port] = Integer(options[:port])
 
       Util.assert_one_of(0..65536, port) { ":port must be a valid ip port, #{port} given" }
+      options[:port_lookup] = Hash.new(port)
     end
 
     if options.has_key?(:datacenter)

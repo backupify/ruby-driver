@@ -77,7 +77,7 @@ module Cassandra
         credentials,
         auth_provider,
         compressor,
-        port,
+        port_lookup,
         connect_timeout,
         ssl,
         connections_per_local_node,
@@ -91,7 +91,7 @@ module Cassandra
       )
     end
 
-    let(:port)                      { 9042 }
+    let(:port_lookup)               { Hash.new(9042) }
     let(:protocol_version)          { 3 }
     let(:connect_timeout)           { 10 }
     let(:ssl)                       { false }

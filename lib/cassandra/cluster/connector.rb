@@ -112,7 +112,7 @@ module Cassandra
       UNCLAIMED_TIMEOUT = 5 # close unclaimed connections in five seconds
 
       def do_connect(host)
-        @reactor.connect(host.ip.to_s, @connection_options.port, {:timeout => @connection_options.connect_timeout, :ssl => @connection_options.ssl}) do |connection|
+        @reactor.connect(host.ip.to_s, @connection_options.port_lookup[host.ip.to_s], {:timeout => @connection_options.connect_timeout, :ssl => @connection_options.ssl}) do |connection|
           raise Errors::ClientError, 'Not connected, reactor stopped' unless connection
           Protocol::CqlProtocolHandler.new(connection, @reactor, @connection_options.protocol_version, @connection_options.compressor, @connection_options.heartbeat_interval, @connection_options.idle_timeout)
         end.flat_map do |connection|
