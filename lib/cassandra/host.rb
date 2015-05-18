@@ -38,8 +38,10 @@ module Cassandra
     # @return [Symbol] host status. Must be `:up` or `:down`
     attr_reader :status
 
+    attr_reader :port
+
     # @private
-    def initialize(ip, id = nil, rack = nil, datacenter = nil, release_version = nil, tokens = EMPTY_LIST, status = :up)
+    def initialize(ip, id = nil, rack = nil, datacenter = nil, release_version = nil, tokens = EMPTY_LIST, status = :up, port = 9042)
       @ip              = ip
       @id              = id
       @rack            = rack
@@ -47,6 +49,7 @@ module Cassandra
       @release_version = release_version
       @tokens          = tokens
       @status          = status
+      @port            = port
     end
 
     # @return [Boolean] whether this host's status is `:up`

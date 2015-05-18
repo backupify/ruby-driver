@@ -159,6 +159,8 @@ module Cassandra
       private
 
       def create_host(ip, data)
+        puts "create_host: #{ip} #{data} #{caller}"
+        puts "Using custom port #{ip.port}" if ip.respond_to?(:port)
         Host.new(ip, data['host_id'], data['rack'], data['data_center'], data['release_version'], Array(data['tokens']).freeze, :up)
       end
 
