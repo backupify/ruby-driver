@@ -83,7 +83,7 @@ module Cassandra
           timer = @refreshing_statuses.delete(host)
           @io_reactor.cancel_timer(timer) if timer
 
-          unless @connection || (@status == :closing || @status == :closed) || @load_balancing_policy.distance(host) == :ignore
+          unless true || @connection || (@status == :closing || @status == :closed) || @load_balancing_policy.distance(host) == :ignore
             return connect_to_first_available(@load_balancing_policy.plan(nil, VOID_STATEMENT, VOID_OPTIONS))
           end
         end
@@ -505,11 +505,11 @@ module Cassandra
         local = send_select_request(connection, SELECT_LOCAL)
         peers = send_select_request(connection, SELECT_PEERS)
 
-        puts "local: #{local}"
-        puts "peers: #{peers}"
-
         Ione::Future.all(local, peers).map do |(local, peers)|
           @logger.debug("#{peers.size} peer(s) found")
+
+          puts "local: #{local}"
+          puts "peers: #{peers}"
 
           ips = ::Set.new
 
