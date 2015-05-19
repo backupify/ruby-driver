@@ -505,6 +505,9 @@ module Cassandra
         local = send_select_request(connection, SELECT_LOCAL)
         peers = send_select_request(connection, SELECT_PEERS)
 
+        puts "local: #{local}"
+        puts "peers: #{peers}"
+
         Ione::Future.all(local, peers).map do |(local, peers)|
           @logger.debug("#{peers.size} peer(s) found")
 
