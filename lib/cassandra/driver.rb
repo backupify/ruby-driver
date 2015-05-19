@@ -77,7 +77,7 @@ module Cassandra
         credentials,
         auth_provider,
         compressor,
-        port_lookup,
+        port,
         connect_timeout,
         ssl,
         connections_per_local_node,
@@ -91,7 +91,7 @@ module Cassandra
       )
     end
 
-    let(:port_lookup)               { Hash.new(9042) }
+    let(:port)                      { 9042 }
     let(:protocol_version)          { 3 }
     let(:connect_timeout)           { 10 }
     let(:ssl)                       { false }
@@ -126,7 +126,7 @@ module Cassandra
       @instances = defaults
     end
 
-    def connect(addresses)
+    def connect(addresses, ports)
       load_balancing_policy.setup(cluster)
       cluster_registry.add_listener(load_balancing_policy)
       cluster_registry.add_listener(control_connection)
@@ -135,7 +135,7 @@ module Cassandra
       end
 
       logger.debug('Populating policies and listeners with initial endpoints')
-      addresses.each {|address| cluster_registry.host_found(address)}
+      addresses.zip(ports).each {|address, port| cluster_registry.host_found(address, {}, port)}
 
       logger.info('Establishing control connection')
 

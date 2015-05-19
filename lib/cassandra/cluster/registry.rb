@@ -68,7 +68,7 @@ module Cassandra
         @hosts.has_key?(address.to_s)
       end
 
-      def host_found(address, data = {})
+      def host_found(address, data = {}, port = nil)
         ip   = address.to_s
         host = @hosts[ip]
 
@@ -86,12 +86,12 @@ module Cassandra
 
             notify_lost(host)
 
-            host = create_host(address, data)
+            host = create_host(address, data, port)
 
             notify_found(host)
           end
         else
-          host = create_host(address, data)
+          host = create_host(address, data, port)
 
           notify_found(host)
         end
@@ -158,14 +158,13 @@ module Cassandra
 
       private
 
-      def create_host(ip, data)
+      def create_host(ip, data, port)
         puts "create_host: #{ip} #{data} #{caller}"
-        puts "Using custom port #{ip.port}" if ip.respond_to?(:port)
-        Host.new(ip, data['host_id'], data['rack'], data['data_center'], data['release_version'], Array(data['tokens']).freeze, :up)
+        Host.new(ip, data['host_id'], data['rack'], data['data_center'], data['release_version'], Array(data['tokens']).freeze, :up, port)
       end
 
       def toggle_up(host)
-        host = Host.new(host.ip, host.id, host.rack, host.datacenter, host.release_version, host.tokens, :up)
+        host = Host.new(host.ip, host.id, host.rack, host.datacenter, host.release_version, host.tokens, :up, host.port)
         @logger.debug("Host #{host.ip} is up")
         @listeners.each do |listener|
           listener.host_up(host) rescue nil
@@ -174,7 +173,7 @@ module Cassandra
       end
 
       def toggle_down(host)
-        host = Host.new(host.ip, host.id, host.rack, host.datacenter, host.release_version, host.tokens, :down)
+        host = Host.new(host.ip, host.id, host.rack, host.datacenter, host.release_version, host.tokens, :down, host.port)
         @logger.debug("Host #{host.ip} is down")
         @listeners.reverse_each do |listener|
           listener.host_down(host) rescue nil

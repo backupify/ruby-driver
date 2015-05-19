@@ -216,7 +216,7 @@ module Cassandra
   #   cluster instance.
   def self.cluster_async(options = {})
     options = options.select do |key, value|
-      [ :credentials, :auth_provider, :compression, :hosts, :logger, :port, :port_lookup,
+      [ :credentials, :auth_provider, :compression, :hosts, :logger, :port, :ports,
         :load_balancing_policy, :reconnection_policy, :retry_policy, :listeners,
         :consistency, :trace, :page_size, :compressor, :username, :password,
         :ssl, :server_cert, :client_cert, :private_key, :passphrase,
@@ -349,7 +349,6 @@ module Cassandra
       port = options[:port] = Integer(options[:port])
 
       Util.assert_one_of(0..65536, port) { ":port must be a valid ip port, #{port} given" }
-      options[:port_lookup] = Hash.new(port)
     end
 
     if options.has_key?(:datacenter)
@@ -502,6 +501,18 @@ module Cassandra
       end
     end
 
+    ports = []
+
+    ports = if options.has_key?(:ports)
+              ports = options[:ports]
+            else
+              hosts.map { |_| port }
+            end
+
+    unless ports.size == hosts.count
+      raise ::ArgumentError, ":ports must be the same length as hosts"
+    end
+
     if hosts.empty?
       raise ::ArgumentError, ":hosts #{options[:hosts].inspect} could not be resolved to any ip address"
     end
@@ -512,7 +523,7 @@ module Cassandra
     futures.error(e)
   else
     driver = Driver.new(options)
-    driver.connect(hosts)
+    driver.connect(hosts, ports)
   end
 
   # @private

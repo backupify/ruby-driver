@@ -114,7 +114,7 @@ module Cassandra
       def do_connect(host)
         ip = host.ip
         puts "do_connect with ip #{ip}"
-        port = @connection_options.port_lookup[ip]
+        port = host.port
         puts " --- port #{port}"
 
         @reactor.connect(host.ip.to_s, port, {:timeout => @connection_options.connect_timeout, :ssl => @connection_options.ssl}) do |connection|
