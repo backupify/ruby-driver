@@ -211,6 +211,8 @@ module Cassandra
           connection.on_event do |event|
             @logger.debug("Event received #{event}")
 
+            puts "Event received: #{event}"
+
             if event.type == 'SCHEMA_CHANGE'
               handle_schema_change(event)
             else
