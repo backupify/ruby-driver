@@ -509,7 +509,14 @@ module Cassandra
           ips = ::Set.new
 
           unless local.empty?
-            ips << ip = IPAddr.new(connection.host)
+            # Re-use the existing host information if the host is already
+            # registered. This allows custom port config to be maintained.
+            ip = if @registry.has_host?(connection.host)
+              @registry.host(connection.host).ip
+            else
+              IPAddr.new(connection.host)
+            end
+            ips << ip
             data = local.first
             @registry.host_found(ip, data)
             @metadata.update(data)
