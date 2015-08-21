@@ -226,7 +226,8 @@ module Cassandra
         :connect_timeout, :futures_factory, :datacenter, :address_resolution,
         :address_resolution_policy, :idle_timeout, :heartbeat_interval, :timeout,
         :synchronize_schema, :schema_refresh_delay, :schema_refresh_timeout,
-        :shuffle_replicas, :client_timestamps
+        :shuffle_replicas, :client_timestamps, :connections_per_local_node,
+        :connections_per_remote_node
       ].include?(key)
     end
 
