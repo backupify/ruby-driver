@@ -57,7 +57,9 @@ So that's the series of calls.
 
 ### Testing our patch
 
-Change an instance's Gemfile so that this version of the
+Put a worker in maintenance mode.
+
+Make a branch of backupify and change the Gemfile so that this version of the
 datastax driver gets used:
 
 ```
@@ -67,7 +69,11 @@ datastax driver gets used:
 gem 'cassandra-driver', :git => 'git@github.com:backupify/ruby-driver.git', :branch => '3.0.0-rc.2-port_support'
 ```
 
-To see the list of IPs in the registry, do this at the Rails console:
+Deploy your branch to the worker you put in maintenance mode.
+
+Get a Rails console going on the worker you put into maintenance mode.
+
+To see the list of IPs in the registry, do this:
 
 ```ruby
 control_connection = cluster.instance_variable_get(:@control_connection);
@@ -106,6 +112,12 @@ Backupify::Stunnel::IPAddrWithPort 127.0.0.82:27528
 Backupify::Stunnel::IPAddrWithPort 127.0.0.66:27492
 ...
 ```
+
+### The three files we changed from the Datastax ones:
+
+lib/cassandra/host.rb
+lib/cassandra/cluster/connector.rb
+lib/cassandra/cluster/control_connection.rb
 
 The original Datastax README begins here:
 
