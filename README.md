@@ -1,5 +1,9 @@
 ## How to test the Backupify fork of the datastax driver
 
+### To see the difference between our fork and mainline, look at this URL:
+
+[The diff](https://github.com/datastax/ruby-driver/compare/v3.0.0-rc.2...backupify:3.0.0-rc.2-port_support)
+
 ### A few notes for context:
 
 Using binding.pry, I saw that `lib/cassandra/cluster/control_connection.rb`'s `refresh_metadata_async`
