@@ -8,6 +8,7 @@ CREATE TABLE simplex."t1" (
 )
 WITH bloom_filter_fp_chance = 0.01
  AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+ AND cdc = true
  AND comment = 'test table for unit tests'
  AND compaction = {'class': 'SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
  AND compression = {'chunk_length_in_kb': '64', 'class': 'LZ4Compressor'}
@@ -22,6 +23,8 @@ WITH bloom_filter_fp_chance = 0.01
  AND speculative_retry = '99PERCENTILE';
 
 CREATE INDEX "ind1" ON simplex."t1" ("f2");
+
+CREATE TRIGGER mytrigger ON simplex."t1" USING 'org.apache.cassandra.triggers.AuditTrigger';
 
 CREATE TABLE simplex."t2" (
   "f1" int,

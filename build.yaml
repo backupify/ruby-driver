@@ -1,13 +1,26 @@
+schedules:
+  commit:
+    schedule: per_commit
+    matrix:
+      exclude:
+        - ruby: ['2.2', 'jruby1.7']
+        - cassandra: ['2.2', '3.0']
+  nightly:
+    schedule: nightly
+    branches:
+      include: [master]
+
 ruby:
   - 2.2
   - 2.3
+  - 2.4
   - jruby1.7
+  - jruby9k
 cassandra:
-  - 2.0
   - 2.1
   - 2.2
   - 3.0
-  - 3.7
+  - '3.10'
 os:
   - ubuntu/trusty64
 build:

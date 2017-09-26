@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 #--
-# Copyright 2013-2016 DataStax, Inc.
+# Copyright 2013-2017 DataStax, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -274,7 +274,8 @@ module Cassandra
           value      = ::Hash.new
 
           buffer.read_signed_int.times do
-            value[read_value_v4(buffer, key_type, custom_type_handlers)] = read_value_v4(buffer, value_type, custom_type_handlers)
+            value[read_value_v4(buffer, key_type, custom_type_handlers)] =
+              read_value_v4(buffer, value_type, custom_type_handlers)
           end
 
           value

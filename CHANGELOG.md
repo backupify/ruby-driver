@@ -1,3 +1,37 @@
+# master
+
+# 3.2.0
+
+Features:
+* [RUBY-294](https://datastax-oss.atlassian.net/browse/RUBY-294) Support MRI 2.4.x. Thanks, @lautis, for this contribution!
+
+Bug Fixes:
+* [RUBY-291](https://datastax-oss.atlassian.net/browse/RUBY-291) Driver fails to connect to cluster when a table column type has a quoted name.
+* [RUBY-292](https://datastax-oss.atlassian.net/browse/RUBY-292) Driver sporadically crashes with "undefined method 'ip'" error.
+Thanks, @grosser, for the fix!
+* [RUBY-295](https://datastax-oss.atlassian.net/browse/RUBY-295) When a custom address resolver is configured, 
+consult it when handling all host events, and thus prevent the creation of invalid Host objects.
+
+# 3.1.0
+Features:
+* Do not mark a host as down if there are active connections.
+* Update Keyspace metadata to include collection of indexes defined in the keyspace.
+* Update Table metadata to include trigger-collection and view-collection metadata. Also include the cdc attribute,
+  introduced in C* 3.8. More details [here.](http://cassandra.apache.org/doc/latest/operating/cdc.html)
+* Added execution profiles to encapsulate a group of request execution options.
+* Added support for v5 beta protocol. This will always be a "work-in-progress" since the protocol is under
+  development and the driver is not necessarily updated to the latest revision of it.
+* Make prepared statement cache not be scoped by host and optimistically execute prepared statements on hosts where
+  we are not sure the statement is already prepared. The motivation is that in the steady state, all nodes have
+  prepared statements already, so there is no need to prepare statements before executing them. If the guess is wrong,
+  the client will prepare and execute at that point.
+* Expose various cluster attributes with getters.
+
+Bug Fixes:
+* [RUBY-235](https://datastax-oss.atlassian.net/browse/RUBY-235) execution_info.retries resets retry count when switching hosts.
+* [RUBY-255](https://datastax-oss.atlassian.net/browse/RUBY-255) ControlConnection.peer_ip ignores peers that are missing critical information in system.peers.
+* [RUBY-264](https://datastax-oss.atlassian.net/browse/RUBY-264) Table erroneously reported as using compact storage.
+
 # 3.0.3
 
 Bug Fixes:
