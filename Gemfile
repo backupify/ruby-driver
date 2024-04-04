@@ -27,7 +27,7 @@ group :test do
 end
 
 group :docs do
-  gem 'yard'
+  gem 'yard', '>= 0.9.35'
 
   platforms :mri_19 do
     gem 'gherkin'
@@ -36,7 +36,7 @@ group :docs do
     gem 'nanoc-toolbox'
     gem 'compass'
     gem 'bootstrap-sass'
-    gem 'nokogiri'
+    gem 'nokogiri', '>= 1.15.6'
     gem 'rubypants'
     gem 'rouge'
     gem 'redcarpet'
