@@ -36,7 +36,7 @@ group :docs do
     gem 'nanoc-toolbox'
     gem 'compass'
     gem 'bootstrap-sass'
-    gem 'nokogiri'
+    gem 'nokogiri', '>= 1.18.4'
     gem 'rubypants'
     gem 'rouge'
     gem 'redcarpet'
