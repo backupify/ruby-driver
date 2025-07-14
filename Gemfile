@@ -4,14 +4,14 @@ gemspec
 
 gem 'snappy',        :group => [:development, :test]
 gem 'lz4-ruby',      :group => [:development, :test]
-gem 'rake-compiler', :group => [:development, :test]
+gem 'rake-compiler', '>= 0.9.4', :group => [:development, :test]
 gem 'cliver',        :group => [:development, :test]
 
 group :development do
   platforms :mri_19 do
     gem 'perftools.rb'
-    gem 'guard'
-    gem 'guard-nanoc'
+    gem 'guard', '>= 2.7.0'
+    gem 'guard-nanoc', '>= 1.0.3'
   end
 end
 
@@ -34,7 +34,7 @@ group :docs do
     gem 'htmlbeautifier'
     gem 'nanoc'
     gem 'nanoc-toolbox'
-    gem 'compass'
+    gem 'compass', '>= 1.0.3'
     gem 'bootstrap-sass'
     gem 'nokogiri'
     gem 'rubypants'
