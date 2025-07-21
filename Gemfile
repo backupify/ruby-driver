@@ -10,8 +10,8 @@ gem 'cliver',        :group => [:development, :test]
 group :development do
   platforms :mri_19 do
     gem 'perftools.rb'
-    gem 'guard'
-    gem 'guard-nanoc'
+    gem 'guard', '>= 2.7.0'
+    gem 'guard-nanoc', '>= 1.0.3'
   end
 end
 
